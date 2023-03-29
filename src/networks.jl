@@ -1,12 +1,17 @@
-using PowerModels
-
 function ieee14()
-    grid = PowerModels.parse_file(MODULE_FOLDER * "/networks/ieee14.json")
-    return grid
+    return load_grid(joinpath([MODULE_FOLDER, "networks", "ieee14.json"]))
 end
 
 function pantagruel()
-    # NOT IMPLEMENTED YET - RETURNS IEEE 14
-    grid = PowerModels.parse_file(MODULE_FOLDER * "/networks/ieee14.json")
+    return load_grid(joinpath([MODULE_FOLDER, "networks", "pantagruel.json"]))
+end
+
+function load_grid(path)
+    grid = Dict()
+    try
+        grid = PowerModels.parse_file(path)
+    catch
+        throw(ServerException("Could not load \"$path\""))
+    end
     return grid
 end
