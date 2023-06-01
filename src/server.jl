@@ -1,4 +1,10 @@
 export start_server
+const headers = [
+    "Content-Type" => "text/html; charset=utf-8",
+    "Access-Control-Allow-Origin" => "*",
+    "Access-Control-Allow-Headers" => "*",
+    "Access-Control-Allow-Methods" => "POST, GET, OPTIONS"
+]
 function start_server(port::Int64=8080)
     # Return the PanTaGruEl grid
     @get "/networks/pantagruel" function ()
@@ -7,6 +13,16 @@ function start_server(port::Int64=8080)
             return re
         end
         return_json(re)
+    end
+
+    function CorsMiddleware(handler)
+        return function (req::HTTP.Request)
+            if HTTP.method(req) == "OPTIONS"
+                return HTTP.Response(200, headers)
+            else
+                return handler(req) # passes the request to the AuthMiddleware
+            end
+        end
     end
 
     # Return the IEEE 14 grid
@@ -148,12 +164,12 @@ function start_server(port::Int64=8080)
     end
 
     # Helper function to get the available entsoe-e dates
-    @get "/entsoe/available_dates" function()
+    @get "/entsoe/available_dates" function ()
         re = method_call(get_available_dates)
         return_json(re)
     end
 
-    serve(port=port)
+    serve(port=port, middleware=[CorsMiddleware])
 end
 
 function separate_country_data(grid::Dict)
@@ -176,9 +192,9 @@ end
 
 function return_json(vals::T) where {T}
     try
-        return JSON3.write(vals)
+        return html(JSON3.write(vals), status=200, headers=headers)
     catch
-        return html("Error converting grid to JSON", status=500)
+        return html("Error converting grid to JSON", status=500, headers=headers)
     end
 end
 
@@ -187,11 +203,11 @@ function method_call(method, args...)
         return method(args...)
     catch e
         if isa(e, ServerException)
-            return html(e.msg, status=500)
+            return html(e.msg, status=500, headers=headers)
         elseif isa(e, ClientException)
-            return html(e.msg, status=422)
+            return html(e.msg, status=422, headers=headers)
         else
-            return html("Internal server error", status=500)
+            return html("Internal server error", status=500, headers=headers)
         end
     end
 end
@@ -200,6 +216,6 @@ function parse_json(inp)
     try
         return JSON3.read(inp, Dict)
     catch
-        return html("Error parsing JSON", status=400)
+        return html("Error parsing JSON", status=400, headers=headers)
     end
 end
