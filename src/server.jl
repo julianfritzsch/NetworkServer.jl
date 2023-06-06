@@ -7,7 +7,7 @@ const headers = [
 ]
 function start_server(port::Int64=8080)
     # Return the PanTaGruEl grid
-    @get "/networks/pantagruel" function ()
+    @get "/networks/pantagruel" function (req::HTTP.Request)
         re = method_call(pantagruel)
         if isa(re, HTTP.Messages.Response)
             return re
@@ -66,7 +66,6 @@ function start_server(port::Int64=8080)
         return_json(re)
     end
 
-    # NOT IMPLEMENTED YET!!
     # Do a DC OPF and save the results in the submitted grid.
     # The loads are taken from the ENTSO-E database for a given date
     # If the OPF does not converge return the origina grid
