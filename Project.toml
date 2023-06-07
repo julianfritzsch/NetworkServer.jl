@@ -14,3 +14,6 @@ JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 Oxygen = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
 PowerModels = "c36e90e8-916a-50a6-bd94-075b64ef4655"
+
+[compat]
+julia = "1.8.5"
