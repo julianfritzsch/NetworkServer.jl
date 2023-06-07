@@ -16,4 +16,13 @@ Oxygen = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
 PowerModels = "c36e90e8-916a-50a6-bd94-075b64ef4655"
 
 [compat]
+CSV = "0.10"
+DataFrames = "1.5"
+Gurobi = "1.0.1"
+HTTP = "1"
+Ipopt = "1.4.0"
+JSON3 = "1.13"
+JuMP = "1.11"
+Oxygen = "1.1"
+PowerModels = "0.19"
 julia = "1.8.5"
