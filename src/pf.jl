@@ -18,7 +18,7 @@ function solve_model_pf(grid::Dict, model::DataType)
         throw(ClientException("The grid could not be parsed. It probably has incorrect data."))
     end
     set_silent(pm.model)
-    result = optimize_model!(pm, optimizer=Gurobi.Optimizer)
+    result = optimize_model!(pm, optimizer=opti)
     # Check if optimization was successful
     if !(result["termination_status"] in [OPTIMAL LOCALLY_SOLVED ALMOST_OPTIMAL ALMOST_LOCALLY_SOLVED])
         throw(ServerException("The OPF did not converge."))
