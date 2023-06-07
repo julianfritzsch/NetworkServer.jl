@@ -1,7 +1,3 @@
-function ieee14()
-    return load_grid(joinpath([MODULE_FOLDER, "networks", "ieee14.json"]))
-end
-
 function pantagruel()
     return load_grid(joinpath([MODULE_FOLDER, "networks", "pantagruel.json"]))
 end

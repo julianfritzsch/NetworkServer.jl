@@ -25,15 +25,6 @@ function start_server(port::Int64=8080)
         end
     end
 
-    # Return the IEEE 14 grid
-    @get "/networks/ieee14" function ()
-        re = method_call(ieee14)
-        if isa(re, HTTP.Messages.Response)
-            return re
-        end
-        return_json(re)
-    end
-
     # Do a DC OPF and save the results in the submitted grid.
     # If the OPF does not converge return the origina grid
     @post "/opf/dc_opf" function (req::HTTP.Request)
