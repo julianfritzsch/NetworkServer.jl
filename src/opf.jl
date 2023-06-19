@@ -31,7 +31,7 @@ function solve_model_opf(grid::Dict, model::DataType)
     try
         pm = instantiate_model(grid, model, PowerModels.build_opf)
     catch
-        throw(ClientException("The grid could not be parsed. It probably has incorrect data."))
+        throw(ClientException("The grid could not be parsed. It probably has incorrect data or is missing entries. The full grid needs to be passed."))
     end
     set_silent(pm.model)
     result = optimize_model!(pm, optimizer=opti)
@@ -56,7 +56,12 @@ function remove_reactive_nan(grid::Dict)
 end
 
 function distribute_country_load(grid::Dict, country::Dict, reactive::Bool)
-    Sb = grid["baseMVA"]
+    Sb = 0
+    try
+        Sb = grid["baseMVA"]
+    catch
+        throw(ClientException("The grid could not be parsed. It probably has incorrect data or is missing entries. The full grid needs to be passed."))
+    end
     for key in keys(grid["load"])
         ctry = grid["bus"][string(grid["load"][key]["load_bus"])]["country"]
         coeff = grid["bus"][string(grid["load"][key]["load_bus"])]["load_prop"]
