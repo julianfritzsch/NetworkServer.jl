@@ -1,6 +1,6 @@
 function dc_opf(grid::Dict)
     grid = solve_model_opf(grid, DCPPowerModel)
-    grid = remove_reactive_nan(grid)
+    grid = remove_nan(grid)
     return grid
 end
 
@@ -9,7 +9,7 @@ function ac_opf(grid::Dict)
     # In case it is a DC Opf with lossy lines we still need to take care of 
     # NaN for the reactive power
     if isnan(grid["gen"][collect(keys(grid["gen"]))[1]]["qg"])
-        grid = remove_reactive_nan(grid)
+        grid = remove_nan(grid)
     end
     return grid
 end
@@ -44,13 +44,16 @@ function solve_model_opf(grid::Dict, model::DataType)
     return grid
 end
 
-function remove_reactive_nan(grid::Dict)
-    for key in keys(grid["gen"])
-        grid["gen"][key]["qg"] = 0
+function remove_nan(grid::Dict)
+    for v in values(grid["gen"])
+        isnan(v["pg"]) && (v["pg"] = 0)
+        isnan(v["qg"]) && (v["qg"] = 0)
     end
-    for key in keys(grid["branch"])
-        grid["branch"][key]["qf"] = 0
-        grid["branch"][key]["qt"] = 0
+    for v in values(grid["branch"])
+        isnan(v["pf"]) && (v["pf"] = 0)
+        isnan(v["pt"]) && (v["pt"] = 0)
+        isnan(v["qf"]) && (v["qf"] = 0)
+        isnan(v["qt"]) && (v["qt"] = 0)
     end
     return grid
 end
