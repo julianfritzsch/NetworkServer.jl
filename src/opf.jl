@@ -1,5 +1,5 @@
 function dc_opf(grid::Dict)
-    grid = solve_model_opf(grid, DCMPPowerModel)
+    grid = solve_model_opf(grid, DCPPowerModel)
     grid = remove_reactive_nan(grid)
     return grid
 end

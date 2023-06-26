@@ -1,11 +1,15 @@
 function dc_pf(grid::Dict)
-    grid = solve_model_pf(grid, DCMPPowerModel)
+    grid = solve_model_pf(grid, DCPPowerModel)
+    flows = calc_branch_flow_dc(grid)
+    update_data!(grid, flows)
     grid = remove_reactive_nan(grid)
     return grid
 end
 
 function ac_pf(grid::Dict)
     grid = solve_model_pf(grid, DCPLLPowerModel)
+    flows = calc_branch_flow_ac(grid)
+    update_data!(grid, flows)
     grid = remove_reactive_nan(grid)
     return grid
 end
