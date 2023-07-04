@@ -5,7 +5,7 @@ const headers = [
     "Access-Control-Allow-Headers" => "*",
     "Access-Control-Allow-Methods" => "POST, GET, OPTIONS"
 ]
-function start_server(port::Int64=8080)
+function start_server(; port::Int64=8080, host::String="127.0.0.1")
     # Return the PanTaGruEl grid
     @get "/networks/pantagruel" function (req::HTTP.Request)
         re = method_call(pantagruel)
@@ -159,7 +159,7 @@ function start_server(port::Int64=8080)
         return_json(re)
     end
 
-    serve(port=port, middleware=[CorsMiddleware])
+    serve(port=port, middleware=[CorsMiddleware], host=host)
 end
 
 function separate_country_data(grid::Dict)
