@@ -30,4 +30,6 @@ function __init__()
         global opti = Ipopt.Optimizer
     end
 end
+
+precompile(start_server, ())
 end

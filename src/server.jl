@@ -5,9 +5,10 @@ const headers = [
     "Access-Control-Allow-Headers" => "*",
     "Access-Control-Allow-Methods" => "POST, GET, OPTIONS"
 ]
-function start_server(; port::Int64=8080, host::String="127.0.0.1")
+
+function start_server(; port::Int64=8080, host::String="127.0.0.1")::nothing
     # Return the PanTaGruEl grid
-    @get "/networks/pantagruel" function (req::HTTP.Request)
+    @get "/networks/pantagruel" function ()
         re = method_call(pantagruel)
         if isa(re, HTTP.Messages.Response)
             return re
