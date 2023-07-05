@@ -87,7 +87,7 @@ If you want to send your own requests, you can find an API overview under [127.0
 
 # Docker
 If you are only interested in running the server you can also use the available [Docker container](https://hub.docker.com/repository/docker/julianfritzsch/networkserver/general).
-To run it with IPOPT simply enter
+To run it with Ipopt simply enter
 ```bash
 docker run -dp 8080:8080 julianfritzsch/networkserver
 ```
@@ -95,6 +95,7 @@ To use it with Gurobi, you need to pass the license file to the container
 ```bash
 docker run --volume=<path/to/license>:/opt/gurobi/gurobi.lic:ro -dp 8080:8080 julianfritzsch/networkserver
 ```
+The repositroy used to create the container can be found [here](https://github.com/julianfritzsch/NetworkServerDocker).
 
 # API Documentation
 To follow
