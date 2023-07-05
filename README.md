@@ -93,7 +93,7 @@ docker run -dp 8080:8080 julianfritzsch/networkserver
 ```
 To use it with Gurobi, you need to pass the license file to the container
 ```bash
-docker run --volume=<path/to/license>:/opt/gurobi:ro -dp 8080:8080 julianfritzsch/networkserver
+docker run --volume=<path/to/license>:/opt/gurobi/gurobi.lic:ro -dp 8080:8080 julianfritzsch/networkserver
 ```
 
 # API Documentation
