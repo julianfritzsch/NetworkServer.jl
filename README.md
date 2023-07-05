@@ -10,8 +10,9 @@ A project using this package can be found [here](http://pantagruel-frontend.netl
     2. [Gurobi](#gurobi)
     3. [Package Installation](#package-installation)
     4. [Starting the Server](#starting-the-server)
-3. [API Documentation](#api-documentation)
-4. [Contribute](#contribute)
+3. [Docker](#docker)
+4. [API Documentation](#api-documentation)
+5. [Contribute](#contribute)
 
 # Quickstart
 Simply add this repository to Julia by using
@@ -23,7 +24,7 @@ Pkg.add("https://github.com/julianfritzsch/networkserver.jl")
 Then just import the package and start the server
 ```julia
 using NetworkServer
-start_server(port=8080)
+start_server(port=8080, host="127.0.0.1")
 ```
 
 To see the available API commands go to the displayed documentation website.
@@ -83,6 +84,17 @@ start_server()
 ```
 This should set you up to use the [frontend](https://pantagruel-frontend.netlify.app).
 If you want to send your own requests, you can find an API overview under [127.0.0.1:8080/docs](127.0.0.1:8080).
+
+# Docker
+If you are only interested in running the server you can also use the available [Docker container](https://hub.docker.com/repository/docker/julianfritzsch/networkserver/general).
+To run it with IPOPT simply enter
+```bash
+docker run -dp 8080:8080 julianfritzsch/networkserver
+```
+To use it with Gurobi, you need to pass the license file to the container
+```bash
+docker run --volume=<path/to/license>:/opt/gurobi:ro -dp 8080:8080 julianfritzsch/networkserver
+```
 
 # API Documentation
 To follow
